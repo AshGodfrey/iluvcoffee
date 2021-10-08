@@ -1,18 +1,27 @@
-import { Entity, PrimaryGeneratedColumn, Column, JoinTable, ManyToMany } from 'typeorm';
-import { Flavor } from './flavor.entity';
-
-@Entity() //sql table == 'coffee'
-export class Coffee {
+import {
+    Column,
+    Entity,
+    JoinTable,
+    ManyToMany,
+    PrimaryGeneratedColumn,
+  } from 'typeorm';
+  import { Flavor } from './flavor.entity';
+  
+  @Entity() // sql table === 'coffee'
+  export class Coffee {
     @PrimaryGeneratedColumn()
     id: number;
-
+  
     @Column()
-    readonly name: string;
-
+    name: string;
+  
     @Column()
-    readonly brand: string;
-
-    @JoinTable()
-    @ManyToMany(type => Flavor, (flavor) => flavor.coffees)
+    brand: string;
+  
+    @JoinTable() // 👈 Join the 2 tables - only the OWNER-side does this
+    @ManyToMany(
+      type => Flavor,
+      flavor => flavor.coffees, // what is "coffee" within the Flavor Entity 
+    ) // 👈
     flavors: string[];
-}
+  }
